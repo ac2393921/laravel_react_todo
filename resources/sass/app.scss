@@ -1,0 +1,148 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+a:hover {
+  text-decoration: none;
+  color:#ffffff;
+}
+
+button:focus {
+	outline:0;
+}
+
+.app {
+  height: 100vh;
+
+  &__main {
+    padding-top: 80px;
+    padding-bottom: 60px;
+    overflow: scroll;
+  }
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+
+  > .MuiInputBase-root {
+    margin-bottom: 10px;
+  }
+
+  > input {
+    text-align: center;
+  }
+}
+
+.header {
+  z-index: 1;
+  position: fixed;
+  width: 100vw;
+
+  &__container {
+    justify-content: space-between;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    color:#ffffff;
+  }
+}
+
+.state {
+  margin: 0 auto;
+  background-color: white;
+  text-align: center;
+  width: 200px;
+  padding: 10px;
+  border-radius: 30px;
+  color: #ffffff;
+  background-color: #a8dfd9;
+  margin-bottom: 15px;
+
+  > h1 {
+    margin: 0;
+  }
+}
+
+.todo {
+  text-align: center;
+  margin-bottom: 10px;
+
+  &__container {
+    border-radius: 10%;
+    margin: 0 auto;
+    width: 90vw;
+  }
+
+  &__header {
+    background-color: $teal;
+    padding: 5px;
+  }
+
+  &__header > p {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin: auto;
+  }
+
+  &__header > p > span {
+    margin-right: 10px;
+    font-size: 2rem;
+  }
+
+  &__time > p > span {
+    margin-right: 10px;
+  }
+
+  &__nav {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+.add {
+  position: fixed;
+  right:50px;
+  bottom:80px;
+  transition:1s;
+  opacity:0.7;
+
+  > .MuiButtonBase-root {
+    background-color: #d3d3d3 !important;
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  z-index: 1;
+}
+
+
+.MuiBottomNavigation-root  {
+  background-color: $teal !important;
+}
+
+.MuiToolbar-root {
+  background-color: $teal !important;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  -webkit-appearance: none;
+}
+
+.is_active {
+  background-color: rgba(0, 0, 0, 0.20) !important;
+}

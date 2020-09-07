@@ -1,0 +1,131 @@
+import React, { useState } from 'react'
+
+import { Modal, Input, Button, Fab, Tooltip } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
+
+function rand() {
+  return Math.round(Math.random() * 20) - 10;
+}
+
+function getModalStyle() {
+  const top = 50 + rand();
+  const left = 50 + rand();
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%)`,
+  };
+}
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    textAlign: 'center',
+  },
+}));
+
+function Add(props) {
+  const classes = useStyles();
+  const [modalStyle] = React.useState(getModalStyle);
+
+  const [open, setOpen] = useState(false);
+
+  const [title, setTitle] = useState('');
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const [content, setContent] = useState('');
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const getTodos = () => {
+    return props.getTodos();
+  }
+
+  const postTodo = (event) => {
+    event.preventDefault();
+
+    axios.post('/api/todo/create', {
+        title: title,
+        date: date,
+        time: time,
+        content: content,
+      })
+      .then((res) => {
+        console.log(res);
+        getTodos();
+        handleClose();
+        setClear();
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
+  const setClear = () => {
+    setTitle('');
+    setDate('');
+    setTime('');
+    setContent('');
+  }
+
+  return (
+    <div className="add">
+      <Modal
+        open={open}
+        onClose={handleClose}
+      >
+        <div style={modalStyle} className={classes.paper}>
+          <form className="modal__form">
+            <h2 id="simple-modal-title">Todo作成</h2>
+            <Input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="やること"
+            />
+            <Input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <Input
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+            />
+            <Input
+              type="text"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="具体的に"
+            />
+            <Button
+              onClick={postTodo}
+            >作成</Button>
+          </form>
+        </div>
+      </Modal>
+
+      <Tooltip
+        title="Add"
+        aria-label="add"
+        onClick={() => setOpen(true)}
+      >
+        <Fab color="primary">
+          <AddIcon />
+        </Fab>
+      </Tooltip>
+    </div>
+  )
+}
+
+export default Add
