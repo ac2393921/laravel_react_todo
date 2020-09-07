@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Todo(props) {
+  console.log(props);
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 

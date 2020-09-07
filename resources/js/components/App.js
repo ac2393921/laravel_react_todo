@@ -15,6 +15,10 @@ function App() {
     getTodos();
   }, [])
 
+  const [todos, setTodos] = useState([]);
+  const [notCompletedTodos, setNotCompletedTodos] = useState([]);
+  const [completedTodos, setCompletedTodos] = useState([]);
+
   const getTodos = async () => {
     await axios.get('/api/todo/get')
     .then((res) => {
@@ -34,13 +38,22 @@ function App() {
 
         <Switch>
           <Route  exact path="/">
-            <All />
+            <All
+              todos={todos}
+              getTodos={() => getTodos()}
+            />
           </Route>
           <Route  path="/not_completed">
-            <NotCompleted />
+            <NotCompleted
+              todos={notCompletedTodos}
+              getTodos={() => getTodos()}
+            />
           </Route>
           <Route  path="/completed">
-            <Completed />
+            <Completed
+              todos={completedTodos}
+              getTodos={() => getTodos()}
+            />
           </Route>
         </Switch>
 
