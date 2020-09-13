@@ -2,12 +2,8 @@ import React from 'react'
 import Todo from './Todo'
 
 function All(props) {
-  const getTodos = () => {
-    return props.getTodos();
-  }
-
   return (
-    <div className='app__main all'>
+    <div className='all'>
       <div className="state">
           <h1>All</h1>
         </div>
@@ -15,6 +11,7 @@ function All(props) {
           {
             props.todos.map(({id, date, title, time, content, is_checked}) => (
               <Todo
+                key={id}
                 id={id}
                 date={date}
                 title={title}

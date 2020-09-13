@@ -2,12 +2,8 @@ import React from 'react'
 import Todo from './Todo'
 
 function NotCompleted(props) {
-  const getTodos = () => {
-    return props.getTodos();
-  }
-
   return (
-    <div className='app__main notcompleted'>
+    <div className='notcompleted'>
       <div className="state">
           <h1>未完了</h1>
         </div>
@@ -15,6 +11,7 @@ function NotCompleted(props) {
           {
             props.todos.map(({id, date, title, time, content, is_checked}) => (
               <Todo
+                key={id}
                 id={id}
                 date={date}
                 title={title}

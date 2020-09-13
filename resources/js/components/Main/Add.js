@@ -4,13 +4,11 @@ import { Modal, Input, Button, Fab, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 
-function rand() {
-  return Math.round(Math.random() * 20) - 10;
-}
+import { createAction } from '../../services/TodoService';
 
 function getModalStyle() {
-  const top = 50 + rand();
-  const left = 50 + rand();
+  const top = 50;
+  const left = 50;
 
   return {
     top: `${top}%`,
@@ -23,17 +21,19 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: 'absolute',
     width: 400,
+    outline:0,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     textAlign: 'center',
   },
 }));
 
-function Add(props) {
+function Add() {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
+
+  const requestCreate = createAction();
 
   const [open, setOpen] = useState(false);
 
@@ -46,28 +46,11 @@ function Add(props) {
     setOpen(false);
   };
 
-  const getTodos = () => {
-    return props.getTodos();
-  }
-
   const postTodo = (event) => {
     event.preventDefault();
-
-    axios.post('/api/todo/create', {
-        title: title,
-        date: date,
-        time: time,
-        content: content,
-      })
-      .then((res) => {
-        console.log(res);
-        getTodos();
-        handleClose();
-        setClear();
-      })
-      .catch(error => {
-        console.log(error)
-      })
+    requestCreate(title, date, time, content);
+    handleClose();
+    setClear();
   }
 
   const setClear = () => {
@@ -80,6 +63,7 @@ function Add(props) {
   return (
     <div className="add">
       <Modal
+        // className="modal"
         open={open}
         onClose={handleClose}
       >

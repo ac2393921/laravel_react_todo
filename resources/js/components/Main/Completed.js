@@ -2,12 +2,8 @@ import React from 'react'
 import Todo from './Todo'
 
 function Completed(props) {
-  const getTodos = () => {
-    return props.getTodos();
-  }
-
   return (
-    <div className='app__main completed'>
+    <div className='completed'>
       <div className="state">
           <h1>完了済み</h1>
         </div>
@@ -15,6 +11,7 @@ function Completed(props) {
           {
             props.todos.map(({id, date, title, time, content, is_checked}) => (
               <Todo
+                key={id}
                 id={id}
                 date={date}
                 title={title}
