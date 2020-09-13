@@ -17,3 +17,8 @@ $yellow: #ffed4a;
 $green: #38c172;
 $teal: #4dc0b5;
 $cyan: #6cb2eb;
+
+$breakpoints: (
+  'sp': 'screen and (max-width: 480px)',
+  'pc': 'screen and (max-width: 1024px)',
+) !default;

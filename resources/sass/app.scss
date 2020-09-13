@@ -19,10 +19,12 @@ button:focus {
 .app {
   height: 100vh;
 
-  &__main {
-    padding-top: 80px;
-    padding-bottom: 60px;
-    overflow: scroll;
+  @media (min-width: 1024px) {
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px;
+    margin: 0px auto;
+    height: 100%;
+    width: 60vw;
   }
 }
 
@@ -40,6 +42,10 @@ button:focus {
 }
 
 .header {
+  @media (min-width: 1024px) {
+    width: 60vw;
+  }
+
   z-index: 1;
   position: fixed;
   width: 100vw;
@@ -57,6 +63,20 @@ button:focus {
     color:#ffffff;
   }
 }
+
+.main {
+  padding-top: 80px;
+  padding-bottom: 60px;
+  overflow: scroll;
+
+  @media (min-width: 1024px) {
+    margin: 0 auto;
+    width: 60vw;
+    height: 100vh;
+    background-color: #ffffff;
+  }
+}
+
 
 .state {
   margin: 0 auto;
@@ -82,6 +102,10 @@ button:focus {
     border-radius: 10%;
     margin: 0 auto;
     width: 90vw;
+
+    @media (min-width: 1024px) {
+      width: 60%;
+    }
   }
 
   &__header {
@@ -120,9 +144,17 @@ button:focus {
   > .MuiButtonBase-root {
     background-color: #d3d3d3 !important;
   }
+
+  @media (min-width: 1024px) {
+    right:500px;
+  }
 }
 
 .footer {
+  @media (min-width: 1024px) {
+    width: 60vw;
+  }
+
   position: fixed;
   bottom: 0;
   width: 100vw;
@@ -145,4 +177,5 @@ button:focus {
 
 .is_active {
   background-color: rgba(0, 0, 0, 0.20) !important;
+  height: 100%;
 }
