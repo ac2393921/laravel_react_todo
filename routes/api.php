@@ -17,6 +17,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'auth'
+], function ($router) {
+    Route::post('login', 'Auth\AuthController@login');
+    Route::post('register', 'Auth\AuthController@register');
+    Route::post('logout', 'Auth\AuthController@logout');
+    Route::post('refresh', 'Auth\AuthController@refresh');
+    Route::post('me', 'Auth\AuthController@me');
+});
+
 Route::group(['middleware' => 'api'], function(){
     Route::post('todo/create', 'Todo\CreateController');
     Route::get('todo/get', 'Todo\GetController');
