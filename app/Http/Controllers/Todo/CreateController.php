@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Services\TodoService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CreateController extends Controller
 {
@@ -19,6 +20,7 @@ class CreateController extends Controller
     public function __invoke(Request $request, TodoService $todoService): JsonResponse
     {
         $response = $todoService->create(
+            Auth::id(),
             $request->input('title'),
             $request->input('date'),
             $request->input('time'),

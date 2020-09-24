@@ -21,11 +21,13 @@ class TodoService
     /**
      * Todoを全て取得する
      *
+     * @param integer $userId
      * @return Collection
      */
-    public function fetchAll(): Collection
+    public function fetchAll(int $userId): Collection
     {
         return $this->todo
+            ->where('user_id', $userId)
             ->orderBy('date')
             ->orderBy('time')
             ->get();
@@ -34,14 +36,16 @@ class TodoService
     /**
      * Todoを作成する
      *
+     * @param integer $userId
      * @param string $title
      * @param string $date
      * @param string $time
      * @param string $content
      * @return boolean
      */
-    public function create(string $title, string $date, string $time, string $content): bool
+    public function create(int $userId, string $title, string $date, string $time, string $content): bool
     {
+        $this->todo->user_id = $userId;
         $this->todo->title = $title;
         $this->todo->date = $date;
         $this->todo->time =$time;
@@ -62,14 +66,14 @@ class TodoService
      */
     public function update(int $id, string $title, string $date, string $time, string $content): Todo
     {
-      $todo = $this->todo->find($id);
-      $todo->title = $title;
-      $todo->date = $date;
-      $todo->time =$time;
-      $todo->content = $content;
-      $todo->save();
+        $todo = $this->todo->find($id);
+        $todo->title = $title;
+        $todo->date = $date;
+        $todo->time =$time;
+        $todo->content = $content;
+        $todo->save();
 
-      return $todo;
+        return $todo;
     }
 
     /**
