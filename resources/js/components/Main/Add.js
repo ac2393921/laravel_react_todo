@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 
 import { createRequest } from '../../actions/TodoAction';
-import { createAction } from '../../services/TodoService';
 
 import { Modal, Input, Button, Fab, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
