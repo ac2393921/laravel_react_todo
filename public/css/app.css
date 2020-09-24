@@ -10912,10 +10912,95 @@ button:focus {
   height: 100vh;
 }
 
-.app__main {
-  padding-top: 80px;
-  padding-bottom: 60px;
-  overflow: scroll;
+@media (min-width: 1024px) {
+  .app {
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px;
+    margin: 0px auto;
+    height: 100%;
+    width: 60vw;
+  }
+}
+
+.error {
+  color: red;
+  opacity: 0.9;
+}
+
+.login {
+  background-color: #f8f8f8;
+  height: 100vh;
+  width: 100vw;
+  display: grid;
+  place-items: center;
+}
+
+@media (min-width: 1024px) {
+  .login {
+    transform: translateX(-20%);
+  }
+}
+
+.login__container {
+  overflow: hidden;
+  position: relative;
+  padding: 100px;
+  height: 550px;
+  text-align: center;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px;
+}
+
+.login__text > h1 {
+  color: gray;
+}
+
+.login__footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.login__footer > .active {
+  background-color: #4dc0b5;
+}
+
+.login__footer > .active > button {
+  color: white !important;
+}
+
+.login__footer-btn_wrapper {
+  border-radius: 0 !important;
+  height: 60px;
+  width: 50%;
+}
+
+.login__footer-btn {
+  height: 60px;
+  width: 100%;
+}
+
+.signin > button,
+.signup > button {
+  margin-top: 50px;
+  padding: 10px;
+  text-transform: inherit;
+  background-color: #4dc0b5;
+  color: white;
+}
+
+.login__form {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.login__form > .MuiInputBase-root {
+  margin-bottom: 10px;
 }
 
 .modal__form {
@@ -10937,6 +11022,12 @@ button:focus {
   width: 100vw;
 }
 
+@media (min-width: 1024px) {
+  .header {
+    width: 60vw;
+  }
+}
+
 .header__container {
   justify-content: space-between;
 }
@@ -10948,6 +11039,21 @@ button:focus {
 
 .header__logo {
   color: #ffffff;
+}
+
+.main {
+  padding-top: 80px;
+  padding-bottom: 60px;
+  overflow: scroll;
+}
+
+@media (min-width: 1024px) {
+  .main {
+    margin: 0 auto;
+    width: 60vw;
+    height: 100vh;
+    background-color: #ffffff;
+  }
 }
 
 .state {
@@ -10975,6 +11081,12 @@ button:focus {
   border-radius: 10%;
   margin: 0 auto;
   width: 90vw;
+}
+
+@media (min-width: 1024px) {
+  .todo__container {
+    width: 60%;
+  }
 }
 
 .todo__header {
@@ -11014,11 +11126,23 @@ button:focus {
   background-color: #d3d3d3 !important;
 }
 
+@media (min-width: 1024px) {
+  .add {
+    right: 500px;
+  }
+}
+
 .footer {
   position: fixed;
   bottom: 0;
   width: 100vw;
   z-index: 1;
+}
+
+@media (min-width: 1024px) {
+  .footer {
+    width: 60vw;
+  }
 }
 
 .MuiBottomNavigation-root {
@@ -11036,5 +11160,14 @@ button:focus {
 
 .is_active {
   background-color: rgba(0, 0, 0, 0.2) !important;
+  height: 100%;
+}
+
+.MuiInputBase-input {
+  text-align: center;
+}
+
+.MuiInput-underline:after {
+  border-bottom: 2px solid #4dc0b5 !important;
 }
 
