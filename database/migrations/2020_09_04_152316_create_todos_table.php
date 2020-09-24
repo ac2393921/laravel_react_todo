@@ -13,15 +13,21 @@ class CreateTodosTable extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::create('todos', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedInteger('user_id');
             $table->string('title');
             $table->date('date');
             $table->time('time');
             $table->text('content');
             $table->boolean('is_checked')->default(false);
             $table->timestamps();
+            $table->foreign('user_id')->references('id')->on('users');
         });
+
+        Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -31,6 +37,10 @@ class CreateTodosTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
+
         Schema::dropIfExists('todos');
+
+        Schema::enableForeignKeyConstraints();
     }
 }
