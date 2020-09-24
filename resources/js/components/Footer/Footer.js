@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import {Link} from 'react-router-dom';
+
 import { BottomNavigation, BottomNavigationAction } from '@material-ui/core';
 import ListIcon from '@material-ui/icons/List';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
@@ -11,7 +12,7 @@ function Footer() {
   return (
     <div className="footer">
       <BottomNavigation>
-        <Link to="/">
+        <Link to="/todo/all">
           <BottomNavigationAction
               label="all"
               onClick={() => setRoot('all')}
@@ -19,7 +20,7 @@ function Footer() {
               icon={<ListIcon />}
             />
         </Link>
-        <Link to="/not_completed">
+        <Link to="/todo/not_completed">
           <BottomNavigationAction
             label="not_completed"
             onClick={() => setRoot('not_completed')}
@@ -27,7 +28,7 @@ function Footer() {
             icon={<CheckBoxOutlineBlankIcon/>}
         />
         </Link>
-        <Link to="/completed">
+        <Link to="/todo/completed">
           <BottomNavigationAction
             label="completed"
             onClick={() => setRoot('completed')}

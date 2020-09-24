@@ -1,7 +1,20 @@
 import React from 'react'
+
+import { logoutRequest } from '../../actions/AuthAction';
+import { initTodos } from '../../actions/TodoAction';
+
 import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { useDispatch } from 'react-redux';
 
 function Header() {
+  const dispatch = useDispatch();
+
+  const logout = (event) => {
+    event.preventDefault();
+    dispatch(logoutRequest());
+    dispatch(initTodos());
+  }
+
   return (
     <div  className="header">
       <AppBar position="static">
@@ -11,8 +24,12 @@ function Header() {
               <a href="/" className="header__logo">Todoアプリ</a>
             </Typography>
           </div>
-          <Button color="inherit"></Button>
-          {/* <Button color="inherit">Logout</Button> */}
+          <Button
+            color="inherit"
+            onClick={logout}
+          >
+            Logout
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

@@ -1,5 +1,6 @@
 import React from 'react'
-import Todo from './Todo'
+
+import Todo from './TodoItem'
 
 function Completed(props) {
   return (

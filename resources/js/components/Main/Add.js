@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+
+import { createRequest } from '../../actions/TodoAction';
+import { createAction } from '../../services/TodoService';
 
 import { Modal, Input, Button, Fab, Tooltip } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
-
-import { createAction } from '../../services/TodoService';
 
 function getModalStyle() {
   const top = 50;
@@ -33,7 +35,7 @@ function Add() {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 
-  const requestCreate = createAction();
+  const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
 
@@ -48,7 +50,13 @@ function Add() {
 
   const postTodo = (event) => {
     event.preventDefault();
-    requestCreate(title, date, time, content);
+    const data = {
+      title: title,
+      date: date,
+      time: time,
+      content: content
+    }
+    dispatch(createRequest(data));
     handleClose();
     setClear();
   }

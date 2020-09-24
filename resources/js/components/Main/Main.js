@@ -1,44 +1,42 @@
 import React, { useEffect } from 'react'
-import {Route, Switch} from 'react-router-dom';
-
-import Add from './Add';
-import All from './All';
-import NotCompleted from './NotCompleted';
-import Completed from './Completed';
-
-import { fetchAllAction } from '../../services/TodoService';
+import { Route } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
-function Main() {
-  const todos = useSelector(state => state.todos);
-  const requestFetch = fetchAllAction();
+import { initTodos, fetchAllRequest } from '../../actions/TodoAction';
+import Add from './Add';
+import All from './All';
+import Completed from './Completed';
+import NotCompleted from './NotCompleted';
 
-  const completedTodos = todos.filter(todo => todo.is_checked === true);
-  const notCompletedTodos = todos.filter(todo => todo.is_checked === false);
+
+
+function Main() {
+  const dispatch = useDispatch();
+  const todos = useSelector(state => state.todoReducer.todos);
+  const auth = useSelector(state => state.authReducer.auth);
 
   useEffect(() => {
-    requestFetch();
-  }, []);
+    dispatch(initTodos());
+    dispatch(fetchAllRequest());
+  }, [])
 
   return (
     <div className="main">
-      <Switch>
-        <Route exact path="/">
-          <All
-            todos={todos}
-          />
-        </Route>
-        <Route path="/not_completed">
-          <NotCompleted
-            todos={notCompletedTodos}
-          />
-        </Route>
-        <Route path="/completed">
-          <Completed
-            todos={completedTodos}
-          />
-        </Route>
-      </Switch>
+      <Route exact path="/todo/all">
+        <All
+          todos={todos.items}
+        />
+      </Route>
+      <Route path="/todo/not_completed">
+        <NotCompleted
+          todos={todos.items.filter(todo => todo.is_checked === false)}
+        />
+      </Route>
+      <Route path="/todo/completed">
+        <Completed
+          todos={todos.items.filter(todo => todo.is_checked === true)}
+        />
+      </Route>
 
       <Add />
     </div>

@@ -1,29 +1,92 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom';
-import { HashRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import { Provider, useDispatch, useSelector } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { all } from 'redux-saga/effects'
+import cookie from 'js-cookie';
 
-import Header from './Header/Header';
-import Main from './Main/Main';
-import Footer from './Footer/Footer';
+import { fetchUserRequest } from '../actions/AuthAction';
+import rootReducer from '../reducers/RootReducer';
+import GuestRoute from './Auth/GuestRoute';
+import AuthRoute from './Auth/AuthRoute';
+import todoSaga from '../saga/Todo';
+import authSaga from '../saga/Auth';
+import Todo from './Todo/Todo';
+import Login from './Login/Login';
 
-import { createStore } from 'redux';
-import { Provider } from 'react-redux';
-import { todoReducer } from '../reducers/TodoReducer';
+import jwt from 'jsonwebtoken';
 
-const store = createStore(todoReducer);
+
+function* rootSaga() {
+  yield all([
+      ...todoSaga,
+      ...authSaga,
+  ])
+}
+
+const sagaMiddleware = createSagaMiddleware()
+
+const store = createStore(
+  rootReducer,
+  applyMiddleware(sagaMiddleware)
+);
+
+sagaMiddleware.run(rootSaga)
 
 function App() {
-  return (
-    <div className='app'>
-        <HashRouter>
-          <Header />
+  const jwt_token = 'kvL62b9ihBgxLLv1U0XlOPP10UXltEedgNDCLrkQmtTFzSO7snveFCjN93nntes7';
+  let token = cookie.get('token');
+  jwt.verify(token, jwt_token, function(err, decoded) {
+    if (err) {
+      token = null;
+      cookie.remove('token')
+    }
+    console.log(decoded);
+  });
 
-          <Main />
+  const dispatch = useDispatch();
 
-          <Footer />
-        </HashRouter>
-    </div>
-  )
+  const auth = useSelector(state => state.authReducer.auth);
+
+  if (token) {
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+
+    useEffect(() => {
+      dispatch(fetchUserRequest());
+    }, [])
+
+    return (
+      <div className='app'>
+        <Router>
+          <Switch>
+            <GuestRoute path="/sign">
+              <Login />
+            </GuestRoute>
+            <AuthRoute path="/todo">
+              <Todo />
+            </AuthRoute>
+          </Switch>
+        </Router>
+      </div>
+    )
+  } else {
+    return (
+      <div className='app'>
+        <Router>
+          <Switch>
+            <GuestRoute path="/sign">
+              <Login />
+            </GuestRoute>
+            <AuthRoute path="/todo">
+              <Todo />
+            </AuthRoute>
+          </Switch>
+        </Router>
+      </div>
+    )
+  }
 }
 
 export default App

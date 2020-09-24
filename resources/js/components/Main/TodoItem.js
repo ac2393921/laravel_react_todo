@@ -1,10 +1,13 @@
 import React,{ useState } from 'react';
+import { useDispatch } from 'react-redux';
+
+import { checkRequest, updateRequest, deleteRequest } from '../../actions/TodoAction';
+
 import { Modal, Input, Button, Card, CardActions, CardContent } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { makeStyles } from '@material-ui/core/styles';
 
-import { updateAction, checkAction, deleteAction } from '../../services/TodoService';
 
 function getModalStyle() {
   const top = 50;
@@ -30,7 +33,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Todo(props) {
+function TodoItem(props) {
+  const dispatch = useDispatch();
+
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
 
@@ -41,27 +46,34 @@ function Todo(props) {
   const [time, setTime] = useState(props.time);
   const [content, setContent] = useState(props.content);
 
-  const requestUpdate = updateAction();
-  const requestDelete = deleteAction();
-  const requestCheck = checkAction();
-
   const handleClose = () => {
     setOpen(false);
   };
 
   const check = () => {
-    requestCheck(props.id, !props.is_checked);
+    const data = {
+      id: props.id,
+      is_checked: !props.is_checked
+    }
+    dispatch(checkRequest(data));
   }
 
   const updateTodo = (event) => {
     event.preventDefault();
-    requestUpdate(props.id, title, date, time, content);
+    const data = {
+      id: props.id,
+      title: title,
+      date: date,
+      time: time,
+      content: content
+    }
+    dispatch(updateRequest(data))
     handleClose();
   }
 
   const deleteTodo = (event) => {
     event.preventDefault();
-    requestDelete(props.id);
+    dispatch(deleteRequest(props.id));
   }
 
   return (
@@ -153,4 +165,4 @@ function Todo(props) {
   )
 }
 
-export default Todo
+export default TodoItem
