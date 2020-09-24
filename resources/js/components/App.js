@@ -35,8 +35,9 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga)
 
+
 function App() {
-  const jwt_token = 'kvL62b9ihBgxLLv1U0XlOPP10UXltEedgNDCLrkQmtTFzSO7snveFCjN93nntes7';
+  const jwt_token = document.getElementById('app').getAttribute('token');
   let token = cookie.get('token');
   jwt.verify(token, jwt_token, function(err, decoded) {
     if (err) {
