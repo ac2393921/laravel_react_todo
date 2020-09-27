@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { createRequest } from '../../actions/TodoAction';
 
-import { Modal, Input, Button, Fab, Tooltip } from '@material-ui/core';
+import { Modal, Button, Fab, Tooltip, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 
@@ -43,21 +43,57 @@ function Add() {
   const [time, setTime] = useState('');
   const [content, setContent] = useState('');
 
+  const [titleError, setTitleError] = useState('');
+  const [dateError, setDateError] = useState('');
+  const [timeError, setTimeError] = useState('');
+  const [contentError, setContentError] = useState('');
+
   const handleClose = () => {
     setOpen(false);
   };
 
   const postTodo = (event) => {
     event.preventDefault();
-    const data = {
-      title: title,
-      date: date,
-      time: time,
-      content: content
+
+    if (validate()) {
+      const data = {
+        title: title,
+        date: date,
+        time: time,
+        content: content
+      }
+      dispatch(createRequest(data));
+      handleClose();
+      setClear();
     }
-    dispatch(createRequest(data));
-    handleClose();
-    setClear();
+  }
+
+  const validate = () => {
+    errorReset();
+    if (title && date) {
+      return true
+    } else {
+      const required = '入力必須です。';
+      if (title.length > 255) {
+        setTitleError('255文字以内で入力してください');
+      }
+      if (!title) {
+        setTitleError(required);
+      }
+      if (!date) {
+        setDateError(required);
+      }
+      if (!time) {
+        setTimeError(required);
+      }
+      if (!content) {
+        setContentError(required);
+      }
+      if (content.length > 1000) {
+        setContentError('1000文字以内で入力してください');
+      }
+      return false
+    }
   }
 
   const setClear = () => {
@@ -67,35 +103,50 @@ function Add() {
     setContent('');
   }
 
+  const errorReset = () => {
+    setTitleError('');
+    setDateError('');
+    setTimeError('');
+    setContentError('');
+  }
+
+
   return (
     <div className="add">
       <Modal
-        // className="modal"
         open={open}
         onClose={handleClose}
       >
         <div style={modalStyle} className={classes.paper}>
           <form className="modal__form">
             <h2 id="simple-modal-title">Todo作成</h2>
-            <Input
+            <TextField
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              error={Boolean(titleError)}
+              helperText={titleError}
               placeholder="やること"
             />
-            <Input
+            <TextField
               type="date"
               value={date}
+              error={Boolean(dateError)}
+              helperText={dateError}
               onChange={(e) => setDate(e.target.value)}
             />
-            <Input
+            <TextField
               type="time"
               value={time}
+              error={Boolean(timeError)}
+              helperText={timeError}
               onChange={(e) => setTime(e.target.value)}
             />
-            <Input
+            <TextField
               type="text"
               value={content}
+              error={Boolean(contentError)}
+              helperText={contentError}
               onChange={(e) => setContent(e.target.value)}
               placeholder="具体的に"
             />

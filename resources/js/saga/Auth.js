@@ -1,8 +1,8 @@
-import { put, call, takeLeading } from 'redux-saga/effects';
+import { put, call, takeLeading, takeEvery } from 'redux-saga/effects';
 
 import cookie from 'js-cookie';
 
-import { loginSuccess, fetchUserSuccess, logoutSuccess } from '../actions/AuthAction';
+import { loginSuccess, loginFailed, fetchUserSuccess, registerSuccess, registerFailed, logoutSuccess } from '../actions/AuthAction';
 
 import loginApi from '../Api/Auth/LoginApi';
 import registerApi from '../Api/Auth/RegisterApi';
@@ -15,7 +15,9 @@ const loginAjax = (email, password) => loginApi(email, password)
       console.log(data)
       return { data }
   })
-  .catch((error) => {
+  .catch((res) => {
+      const error = res.response.data.error;
+      console.log(error);
       return { error }
   })
 
@@ -31,19 +33,22 @@ function* login(payload) {
     cookie.set('user', data.user);
     yield put(loginSuccess(data.user));
   } else {
-    console.log(error)
+    console.log(error);
+    yield put(loginFailed(error));
   }
 }
 
 const registerAjax = (username, email, password, password_confirmation) => registerApi(username, email, password, password_confirmation)
   .then((res) => {
-      const data = res.data
-      console.log(data)
-      return { data }
+    const data = res.data
+    console.log(data)
+    return { data }
   })
-  .catch((error) => {
-      return { error }
-  })
+  .catch((res) => {
+    const error = res.response.data.message;
+    console.log(error);
+    return { error }
+})
 
 function* register(payload) {
   const { data, error } = yield call(registerAjax,
@@ -56,9 +61,10 @@ function* register(payload) {
   if (data) {
     cookie.set('token', data.access_token);
     cookie.set('user', data.user);
-    yield put(loginSuccess(data.user));
+    yield put(registerSuccess(data.user));
   } else {
     console.log(error)
+    yield put(registerFailed(error));
   }
 }
 
@@ -106,8 +112,8 @@ function* logout() {
 }
 
 export default [
-  takeLeading("REQUEST_LOGIN", login),
-  takeLeading("REQUEST_REGISTER", register),
+  takeEvery("REQUEST_LOGIN", login),
+  takeEvery("REQUEST_REGISTER", register),
   takeLeading("REQUEST_FETCH_USER", fetchAuthenticatedUser),
   takeLeading("REQUEST_LOGOUT", logout),
 ];

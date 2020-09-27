@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Todo;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateTodoRequest;
 use App\Services\TodoService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CreateController extends Controller
@@ -13,11 +13,11 @@ class CreateController extends Controller
     /**
      * Todoを作成し、結果をJsonで渡す
      *
-     * @param Request $request
+     * @param CreateTodoRequest $request
      * @param TodoService $todoService
      * @return JsonResponse
      */
-    public function __invoke(Request $request, TodoService $todoService): JsonResponse
+    public function __invoke(CreateTodoRequest $request, TodoService $todoService): JsonResponse
     {
         $response = $todoService->create(
             Auth::id(),

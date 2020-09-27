@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\Todo;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateTodoRequest;
 use App\Services\TodoService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UpdateController extends Controller
 {
     /**
      * Todoを更新し,更新したTodoをJsonで渡す
      *
-     * @param Request $request
+     * @param UpdateTodoRequest $request
      * @param TodoService $todoService
      * @param integer $id
      * @return JsonResponse
      */
-    public function __invoke(Request $request, TodoService $todoService, int $id): JsonResponse
+    public function __invoke(UpdateTodoRequest $request, TodoService $todoService, int $id): JsonResponse
     {
         $todo = $todoService->update(
             $id,

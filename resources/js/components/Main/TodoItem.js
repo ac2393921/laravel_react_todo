@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 
 import { checkRequest, updateRequest, deleteRequest } from '../../actions/TodoAction';
 
-import { Modal, Input, Button, Card, CardActions, CardContent } from '@material-ui/core';
+import { Modal, Button, Card, CardActions, CardContent, TextField } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import { makeStyles } from '@material-ui/core/styles';
@@ -46,6 +46,11 @@ function TodoItem(props) {
   const [time, setTime] = useState(props.time);
   const [content, setContent] = useState(props.content);
 
+  const [titleError, setTitleError] = useState('');
+  const [dateError, setDateError] = useState('');
+  const [timeError, setTimeError] = useState('');
+  const [contentError, setContentError] = useState('');
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -60,15 +65,53 @@ function TodoItem(props) {
 
   const updateTodo = (event) => {
     event.preventDefault();
-    const data = {
-      id: props.id,
-      title: title,
-      date: date,
-      time: time,
-      content: content
+
+    if (validate()) {
+      const data = {
+        id: props.id,
+        title: title,
+        date: date,
+        time: time,
+        content: content
+      }
+      dispatch(updateRequest(data))
+      handleClose();
     }
-    dispatch(updateRequest(data))
-    handleClose();
+  }
+
+  const validate = () => {
+    errorReset();
+    if (title && date) {
+      return true
+    } else {
+      const required = '入力必須です。';
+      if (title.length > 255) {
+        setTitleError('255文字以内で入力してください');
+      }
+      if (!title) {
+        setTitleError(required);
+      }
+      if (!date) {
+        setDateError(required);
+      }
+      if (!time) {
+        setTimeError(required);
+      }
+      if (!content) {
+        setContentError(required);
+      }
+      if (content.length > 1000) {
+        setContentError('1000文字以内で入力してください');
+      }
+      return false
+    }
+  }
+
+  const errorReset = () => {
+    setTitleError('');
+    setDateError('');
+    setTimeError('');
+    setContentError('');
   }
 
   const deleteTodo = (event) => {
@@ -85,26 +128,34 @@ function TodoItem(props) {
         <div style={modalStyle} className={classes.paper}>
           <form className="modal__form">
             <h2 id="simple-modal-title">Todo修正</h2>
-            <Input
+            <TextField
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              error={Boolean(titleError)}
+              helperText={titleError}
               placeholder="やること"
             />
-            <Input
+            <TextField
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
+              error={Boolean(dateError)}
+              helperText={dateError}
             />
-            <Input
+            <TextField
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
+              error={Boolean(timeError)}
+              helperText={timeError}
             />
-            <Input
+            <TextField
               type="text"
               value={content}
               onChange={(e) => setContent(e.target.value)}
+              error={Boolean(contentError)}
+              helperText={contentError}
               placeholder="具体的に"
             />
             <Button

@@ -35,7 +35,6 @@ const store = createStore(
 
 sagaMiddleware.run(rootSaga)
 
-
 function App() {
   const jwt_token = document.getElementById('app').getAttribute('token');
   let token = cookie.get('token');
