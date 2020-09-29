@@ -18,6 +18,11 @@ php artisan config:cache
  
 * Masaya Kojima
 * ac2393921@gmail.com
+
+# Note
+
+最初のurlが ```sign/in``` となります。
+変ですが、いつか直します。。。
  
 # License
  
